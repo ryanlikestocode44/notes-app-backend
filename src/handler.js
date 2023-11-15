@@ -10,12 +10,7 @@ const addNoteHandler = (request, h) => {
   const updatedAt = createdAt;
 
   const newNote = {
-    title,
-    tags,
-    body,
-    id,
-    createdAt,
-    updatedAt,
+    title, tags, body, id, createdAt, updatedAt,
   };
 
   notes.push(newNote);
@@ -25,7 +20,7 @@ const addNoteHandler = (request, h) => {
   if (isSuccess) {
     const response = h.response({
       status: 'success',
-      message: 'Catatan berhasil ditambahkan!',
+      message: 'Catatan berhasil ditambahkan',
       data: {
         noteId: id,
       },
@@ -80,7 +75,7 @@ const editNoteByIdHandler = (request, h) => {
   const { id } = request.params;
 
   // Dapatkan notes terbaru yang dikirim client melalui request
-  const { title, tags, body } = request.payload; 
+  const { title, tags, body } = request.payload;
 
   // memperbaharui nilai updatedAt
   const updatedAt = new Date().toISOString();
@@ -89,13 +84,13 @@ const editNoteByIdHandler = (request, h) => {
   const index = notes.findIndex((note) => note.id === id);
 
   // Cek apakah gagal atau tidak
-  if (index !== -1){
+  if (index !== -1) {
     notes[index] = {
       ...notes[index],
       title,
       tags,
       body,
-      updatedAt
+      updatedAt,
     };
 
     const response = h.response({
@@ -104,14 +99,14 @@ const editNoteByIdHandler = (request, h) => {
     });
     response.code(200);
     return response;
-  };
+  }
 
   const response = h.response({
     status: 'fail',
     message: 'Catatan gagal diperbaharui!',
   });
   response.code(404);
-  return response;  
+  return response;
 };
 
 // Menghapus catatan sesuai dengan id
@@ -122,7 +117,7 @@ const deleteNoteByIdHandler = (request, h) => {
   const index = notes.findIndex((note) => note.id === id);
 
   // Lakukan pengecekan, pastikan nilainya tidak sama dengan -1
-  if (index !== -1){
+  if (index !== -1) {
     // Menghapus catatan dari index-nya
     notes.splice(index, 1);
     const response = h.response({
@@ -131,7 +126,7 @@ const deleteNoteByIdHandler = (request, h) => {
     });
     response.code(200);
     return response;
-  };
+  }
 
   const response = h.response({
     status: 'success',
@@ -139,11 +134,12 @@ const deleteNoteByIdHandler = (request, h) => {
   });
   response.code(200);
   return response;
-}
-module.exports = { 
-  addNoteHandler, 
-  getAllNotesHandler, 
-  getNoteByIdHandler, 
-  editNoteByIdHandler, 
-  deleteNoteByIdHandler
- };
+};
+
+module.exports = {
+  addNoteHandler,
+  getAllNotesHandler,
+  getNoteByIdHandler,
+  editNoteByIdHandler,
+  deleteNoteByIdHandler,
+};
